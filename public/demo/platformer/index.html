@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Hello WESA</title>
+    <link rel="stylesheet" type="text/css" href="../css/demo-iframe.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <canvas id="canvas" width="320" height="240"></canvas>
+    </div>
+    <div class="dynamic-output" id="output">WESA Platformer Demo</div>
+
+    <script src="../../src/wesa.js"></script>
+    <script src="../../src/wesa.platform.js"></script>
+    <script src="./jumper.js"></script>
+
+    <script>
+
+        var scene = null;
+
+        document.onkeydown = function (e) {
+            switch (e.key) {
+                case 'z':
+                    Jumper.keyStatus.jump = true;
+                    break;
+                default:
+                    break;
+             }
+        }
+
+        document.onkeyup = function (e) {
+            switch (e.key) {
+                case 'z':
+                    Jumper.keyStatus.jump = false;
+                    break;
+                default:
+                    break;
+             }
+        }
+
+        const canvas = document.getElementById('canvas');
+
+        // Initialize WESA
+        wesa.core.init(canvas);
+
+        // Adding assets ready for loading
+        wesa.assets.source.spriteSheetUrlArray.push('./jumper.png');
+        wesa.assets.source.spriteSheetUrlArray.push('./platform.png');
+        wesa.assets.source.objectJsonUrl = './jumper.json';
+
+        // Load assets
+        wesa.assets.load(function () {
+
+            // Create the scene
+            scene = new wesa.Scene('Scene');
+
+            // Add test sprite
+            Jumper.gameObjects.player = new Jumper.Jumper({
+                scene: scene,
+                x: -100,
+                y: -20
+            });
+
+            // Add pillars
+            Jumper.gameObjects.pillars = new Jumper.Pillars({
+                scene: scene,
+                xStart: -50,
+                minInterval: 120,
+                maxInterval: 180,
+                minPlatformY: -80,
+                maxPlatformY: 0,
+                pillarSpeed: -3
+            });
+
+            // Run the scene
+            var animate = function () {
+                requestAnimationFrame(animate);
+                Jumper.gameObjects.pillars.update();
+                scene.update();
+                Jumper.gameObjects.player.processInput(Jumper.keyStatus);
+                Jumper.util.processPlatformCollisions(scene.getPlatformCollisions());
+                scene.render();
+            }
+            animate();
+
+        });
+
+    </script>
+
+</body>
+
+</html>

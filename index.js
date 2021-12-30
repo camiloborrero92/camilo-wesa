@@ -11,8 +11,7 @@ router.get('/',function(req,res){
 
 //add the router
 app.use('/', router);
-app.use(express.static('./dist/wesa.min.js'));
-app.use(express.static('./demo/assets/texture/megaman.png'));
+app.use(express.static(`${process.cwd()}/public`));
 app.listen(process.env.PORT || 3000);
 
 console.log('Running at Port 3000');

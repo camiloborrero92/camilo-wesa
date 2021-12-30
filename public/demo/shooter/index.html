@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Hello WESA</title>
+    <link rel="stylesheet" type="text/css" href="../css/demo-iframe.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <canvas id="canvas" width="600" height="800"></canvas>
+    </div>
+    <div class="dynamic-output" id="output">WESA Galaxian Minus</div>
+
+    <script src="../../dist/wesa.min.js"></script>
+
+    <script>
+
+        const canvas = document.getElementById('canvas');
+        const dim = {
+            top: canvas.height / 2,
+            bottom: -canvas.height / 2,
+            left: -canvas.width / 2,
+            right: canvas.width / 2
+        };
+
+        var stars = [];
+        var enemies = [];
+        var player = null;
+
+        function getRandomIntInclusive(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function addStar(scene) {
+            let star = new wesa.Sprite({
+                object: wesa.assets.storedObjects[0],
+                action: 0,
+                team: 0,
+                position: { x: getRandomIntInclusive(dim.left, dim.right), y: getRandomIntInclusive(dim.bottom, dim.top) },
+                scale: 1
+            });
+            star.velocity.y = -2 + Math.random();
+            let endTimes = star.getCurrentAnim().endTimeList;
+            star.setTime(getRandomIntInclusive(0, endTimes[endTimes.length - 1]) - 1);
+            stars.push(star);
+            scene.addSpriteToLayer(0, star);
+        }
+
+        function addEnemy(scene, x, y, player) {
+            let enemy = new wesa.Sprite({
+                object: wesa.assets.storedObjects[2],
+                action: 0,
+                team: 0,
+                position: { x: x, y: y },
+                scale: 2
+            });
+            let enemyAI = new wesa.AI()
+            enemyAI.target = player;
+
+            enemyAI.timer = 0;
+
+            enemyAI.execute = function () {
+                if (this.timer == 0) {
+                    let me = this.self, it = this.target;
+                    //me.velocity.y = -1;
+
+                    let p = (it.position.x - me.position.x + 300) / 600;
+                    if (p < 0) { p = 0; }
+                    if (p > 1) { p = 1; }
+                    if (Math.random() < p) {
+                        me.acceleration.x = 0.1;
+                    }
+                    else {
+                        me.acceleration.x = -0.1;
+                    }
+
+                    let dir = Math.atan2(it.position.y - me.position.y, it.position.x - me.position.x);
+                    if (dir < 0) { dir += 2 * Math.PI; }
+                    let action = Math.ceil((dir - (Math.PI * 17 / 16)) / Math.PI * 8);
+                    if (action < 1) { action = 1; }
+                    if (action > 7) { action = 7; }
+                    me.changeAction(action);
+                    this.timer = getRandomIntInclusive(10, 20);
+                }
+                else {
+                    this.timer--;
+                }
+            }
+
+            enemy.setAI(enemyAI);
+            enemies.push(enemy);
+            scene.addSpriteToLayer(1, enemy);
+        }
+
+        // Initialize WESA
+        wesa.core.init(document.getElementById('canvas'));
+
+        // Adding assets ready for loading
+        wesa.assets.source.spriteSheetUrlArray.push('./galaxian.png');
+        wesa.assets.source.objectJsonUrl = './galaxian.json';
+
+        // Load assets
+        wesa.assets.load(function () {
+
+            // Create the scene
+            var scene = new wesa.Scene('Scene');
+
+            // Background
+            for (let i = 0; i < 30; i++) {
+                addStar(scene);
+            }
+
+            // Player
+            player = new wesa.Sprite({
+                object: wesa.assets.storedObjects[1],
+                action: 0,
+                team: 0,
+                position: { x: 0, y: -250 },
+                scale: 2
+            });
+            scene.addSpriteToLayer(1, player);
+
+            //addEnemy(scene, 0, 250, player);
+
+            // Run the scene
+            var animate = function () {
+
+                for (let i = 0; i < stars.length; i++) {
+                    let star = stars[i];
+                    if (star.position.y < dim.bottom) {
+                        star.position.x = getRandomIntInclusive(dim.left, dim.right);
+                        star.position.y = dim.top;
+                    }
+                }
+
+                requestAnimationFrame(animate);
+                scene.update();
+                scene.render();
+            }
+            animate();
+
+        });
+
+    </script>
+
+</body>
+
+</html>

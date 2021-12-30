@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Demo | WESA</title>
+    <link rel="stylesheet" type="text/css" href="./css/demo-iframe.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <canvas id="canvas" width="640" height="480"></canvas>
+    </div>
+    <div class="dynamic-output" id="output"></div>
+
+    <script src="../dist/wesa.min.js"></script>
+
+    <script>
+
+        let scene = new wesa.Scene('Scene');
+
+        // Initialize WESA
+        wesa.core.init(document.getElementById('canvas'));
+
+        // Adding assets ready for loading
+        wesa.assets.source.spriteSheetUrlArray.push('./assets/texture/megaman.png');
+        wesa.assets.source.objectJsonUrl = './assets/megaman.json';
+
+        // Load assets
+        wesa.assets.load(function () {
+
+            // Add sprite to scene
+            scene.addSpriteToLayer(0, new wesa.Sprite({
+                object: wesa.assets.storedObjects[0],
+                action: 0,
+                team: 0,
+                position: { x: 0, y: 0 },
+                scale: 4
+            }));
+
+            // Run scene
+            let animate = function () {
+                requestAnimationFrame(animate);
+                scene.update();
+                scene.render();
+            }
+            animate();
+
+        });
+
+    </script>
+
+</body>
+
+</html>

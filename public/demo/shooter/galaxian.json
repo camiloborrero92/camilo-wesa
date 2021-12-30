@@ -1,0 +1,105 @@
+﻿{
+    "spriteSheetsMeta": [
+        {
+            "rowCount": 10,
+            "colCount": 10,
+            "cellWidth": 16,
+            "cellHeight": 16
+        }
+    ],
+    "objects": [
+        {
+            "id": 0,
+            "type": 0,
+            "name": "Star",
+            "frames": [
+                {
+                    "loadMode": "single",
+                    "spriteSheet": 0,
+                    "id": 0,
+                    "cell": {
+                        "row": 0,
+                        "col": 9,
+                        "rowSpan": 1,
+                        "colSpan": 1
+                    },
+                    "center": {
+                        "x": 8,
+                        "y": 8
+                    }
+                }
+            ],
+            "animations": [
+                {
+                    "id": 0,
+                    "name": "Blink",
+                    "next": 0,
+                    "frameList": [0, null],
+                    "frameTimeList": [60, 45]
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "type": 0,
+            "name": "Spacecraft",
+            "frames": [
+                {
+                    "loadMode": "single",
+                    "spriteSheet": 0,
+                    "id": 0,
+                    "cell": {
+                        "row": 0,
+                        "col": 8,
+                        "rowSpan": 1,
+                        "colSpan": 1
+                    },
+                    "center": {
+                        "x": 8,
+                        "y": 8
+                    }
+                }
+            ],
+            "animations": [
+                {
+                    "id": 0,
+                    "name": "Flying",
+                    "next": 0,
+                    "frameList": [0],
+                    "frameTimeList": [10]
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "type": 0,
+            "name": "Green Alien",
+            "frames": [
+                {
+                    "loadMode": "array",
+                    "spriteSheet": 0,
+                    "idStart": 0,
+                    "cells": {
+                        "rowStart": 0,
+                        "colStart": 0,
+                        "rowCount": 6,
+                        "colCount": 4
+                    },
+                    "center": {
+                        "x": 8,
+                        "y": 8
+                    }
+                }
+            ],
+            "animations": [
+                {
+                    "id": 0,
+                    "name": "Idle",
+                    "next": 0,
+                    "frameList": [0, 1, 4],
+                    "frameTimeList": [10, 10, 10]
+                }
+            ]
+        }
+    ]
+}

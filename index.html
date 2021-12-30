@@ -102,17 +102,17 @@
             <div class="right"><canvas id="canvas" width="400" height="300"></canvas></div>
         </div>
         <ul class="nav">
-            <li><a href="./demo"><i class="fas fa-cube"></i>&nbsp;&nbsp;&nbsp;More Demo</a></li>
+            <li><a href="/demo"><i class="fas fa-cube"></i>&nbsp;&nbsp;&nbsp;More Demo</a></li>
             <li><a href="https://github.com/mriiiron/wesa/wiki"><i class="fas fa-book"></i>&nbsp;&nbsp;&nbsp;Documentation</a></li>
         </ul>
     </main>
 
     <footer></footer>
-
+    <script src="/js/wesa.js"></script>
     <script>
         wesa.core.init(document.getElementById('canvas'));
-        wesa.assets.source.spriteSheetUrlArray.push('./demo/assets/texture/megaman.png');
-        wesa.assets.source.objectJsonUrl = './demo/assets/megaman.json';
+        wesa.assets.source.spriteSheetUrlArray.push('/demo/assets/texture/megaman.png');
+        wesa.assets.source.objectJsonUrl = '/demo/assets/megaman.json';
         wesa.assets.load(function () {
             let scene = new wesa.Scene('Scene');
             scene.addSpriteToLayer(0, new wesa.Sprite({
@@ -130,7 +130,6 @@
             animate();
         });
     </script>
-
 </body>
 
 </html>
