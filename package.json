@@ -1,0 +1,24 @@
+{
+  "name": "wesa",
+  "version": "1.0.0",
+  "description": "WESA - WebGL-based Engine of Sprite Animation -----------------------------------------------",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tunnel:cb": "ngrok http -subdomain=camilo-borrero 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mriiiron/wesa.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mriiiron/wesa/issues"
+  },
+  "homepage": "https://github.com/mriiiron/wesa#readme"
+}
